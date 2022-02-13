@@ -7,6 +7,9 @@ public abstract class Hero {
     private int level;
     private int positionX;
     private int positionY;
+    private boolean isStunned;
+    private int damageOverTime;
+    private byte damageOverTimeRounds;
     private static int currentRound = 0;
 
     public Hero(String name, int hitPoints, int positionX, int positionY) {
@@ -16,6 +19,9 @@ public abstract class Hero {
         this.positionY = positionY;
         XP = 0;
         level = 0;
+        isStunned = false;
+        damageOverTime = 0;
+        damageOverTimeRounds = 0;
     }
 
     // Methods for calculating the firstAbility against different opponents
@@ -76,24 +82,58 @@ public abstract class Hero {
         }
     }
 
-        // getters
-        public String getName () {
-            return name;
-        }
-
-        public int getLevel () {
-            return level;
-        }
-
-        public int getHitPoints () {
-            return hitPoints;
-        }
-
-        public int getPositionX () {
-            return positionX;
-        }
-
-        public int getPositionY () {
-            return positionY;
-        }
+    public void stun() {
+        isStunned = true;
+        damageOverTime = 0;
+        damageOverTimeRounds = 1;
     }
+
+    public void ignite(int damageOverTime, byte damageOverTimeRounds) {
+        isStunned = false;
+        this.damageOverTime = damageOverTime;
+        this.damageOverTimeRounds = damageOverTimeRounds;
+    }
+
+    public void paralysis(int damageOverTime, byte damageOverTimeRounds) {
+        isStunned = false;
+        this.damageOverTime = damageOverTime;
+        this.damageOverTimeRounds = damageOverTimeRounds;
+    }
+
+    // getters
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    public int getPositionX() {
+        return positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
+    }
+
+    public boolean isStunned() {
+        return isStunned;
+    }
+
+    public int getDamageOverTime() {
+        return damageOverTime;
+    }
+
+    public int getDamageOverTimeRounds() {
+        return damageOverTimeRounds;
+    }
+
+    public static int getCurrentRound() {
+        return currentRound;
+    }
+}

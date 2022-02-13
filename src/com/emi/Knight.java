@@ -13,15 +13,15 @@ public class Knight extends Hero {
         float damage;
 
         // calculate the limit below which the opponent is instantly killed
-        float hPVictimLimit = ((20f + this.getLevel()) / 100) *
-                (900 + 80 * knightHero.getLevel());
+        float hPVictimLimit = (Math.min(40f, (20f + this.getLevel())) / 100) *
+                (900f + 80 * knightHero.getLevel());
         if (knightHero.getHitPoints() < hPVictimLimit)
             damage = knightHero.getHitPoints();
         else
             damage = 200f + 30 * this.getLevel();   // apply the level modifier
 
         if (terrain == Terrain.LAND)
-            damage *= 1.15;                         // apply the terrain modifier
+            damage *= 1.15f;                         // apply the terrain modifier
 
         knightHero.takeDamage(Math.round(damage));
     }
@@ -32,16 +32,16 @@ public class Knight extends Hero {
 
         // calculate the limit below which the opponent is instantly killed
         float hPVictimLimit = ((20f + this.getLevel()) / 100) *
-                (500 + 50 * pyromancerHero.getLevel());
+                (500f + 50 * pyromancerHero.getLevel());
         if (pyromancerHero.getHitPoints() < hPVictimLimit)
             damage = pyromancerHero.getHitPoints();
         else
             damage = 200f + 30 * this.getLevel();   // apply the level modifier
 
         if (terrain == Terrain.LAND)
-            damage *= 1.15;                         // apply the terrain modifier
+            damage *= 1.15f;                         // apply the terrain modifier
 
-        damage *= 1.1;                              // apply the race modifier
+        damage *= 1.1f;                              // apply the race modifier
 
         pyromancerHero.takeDamage(Math.round(damage));
     }
@@ -49,21 +49,29 @@ public class Knight extends Hero {
     @Override
     public void firstAbility(Wizard wizardHero, Terrain terrain) {
         float damage;
+        float wizardDeflectDamage;
 
         // calculate the limit below which the opponent is instantly killed
         float hPVictimLimit = ((20f + this.getLevel()) / 100) *
-                (400 + 30 * wizardHero.getLevel());
+                (400f + 30 * wizardHero.getLevel());
         if (wizardHero.getHitPoints() < hPVictimLimit)
             damage = wizardHero.getHitPoints();
         else
             damage = 200f + 30 * this.getLevel();   // apply the level modifier
 
         if (terrain == Terrain.LAND)
-            damage *= 1.15;                         // apply the terrain modifier
+            damage *= 1.15f;                        // apply the terrain modifier
 
-            damage *= 0.8;                          // apply the race modifier
+        // calculate the wizard's deflect ability
+        wizardDeflectDamage = damage * 1.4f * Math.max(     // 40% against knight
+                (35f + 2 * wizardHero.getLevel()) / 100,
+                70f / 100);
+
+        damage *= 0.8f;                             // apply the race modifier
 
         wizardHero.takeDamage(Math.round(damage));
+
+        this.takeDamage(Math.round(wizardDeflectDamage));    // wizard's deflect ability
     }
 
     @Override
@@ -72,16 +80,16 @@ public class Knight extends Hero {
 
         // calculate the limit below which the opponent is instantly killed
         float hPVictimLimit = ((20f + this.getLevel()) / 100) *
-                (400 + 30 * rogueHero.getLevel());
+                (400f + 30 * rogueHero.getLevel());
         if (rogueHero.getHitPoints() < hPVictimLimit)
             damage = rogueHero.getHitPoints();
         else
             damage = 200f + 30 * this.getLevel();  // apply the level modifier
 
         if (terrain == Terrain.LAND)
-            damage *= 1.15;             // apply the terrain modifier
+            damage *= 1.15f;             // apply the terrain modifier
 
-        damage *= 1.15;                 // apply the race modifier
+        damage *= 1.15f;                 // apply the race modifier
 
         rogueHero.takeDamage(Math.round(damage));
     }
@@ -93,9 +101,9 @@ public class Knight extends Hero {
         float damage = 100f + 40 * this.getLevel(); // apply the level modifier
 
         if (terrain == Terrain.LAND)
-            damage *= 1.15;                         // apply the terrain modifier
+            damage *= 1.15f;                         // apply the terrain modifier
 
-        damage *= 1.2;                              // apply the race modifier
+        damage *= 1.2f;                              // apply the race modifier
 
         knightHero.takeDamage(Math.round(damage));
         knightHero.stun();                          // stun the enemy
@@ -106,9 +114,9 @@ public class Knight extends Hero {
         float damage = 100f + 40 * this.getLevel(); // apply the level modifier
 
         if (terrain == Terrain.LAND)
-            damage *= 1.15;                         // apply the terrain modifier
+            damage *= 1.15f;                         // apply the terrain modifier
 
-        damage *= 0.9;                              // apply the race modifier
+        damage *= 0.9f;                              // apply the race modifier
 
         pyromancerHero.takeDamage(Math.round(damage));
         pyromancerHero.stun();                      // stun the enemy
@@ -117,14 +125,22 @@ public class Knight extends Hero {
     @Override
     public void secondAbility(Wizard wizardHero, Terrain terrain) {
         float damage = 100f + 40 * this.getLevel(); // apply the level modifier
+        float wizardDeflectDamage;
 
         if (terrain == Terrain.LAND)
-            damage *= 1.15;                         // apply the terrain modifier
+            damage *= 1.15f;                         // apply the terrain modifier
 
-        damage *= 1.05;                             // apply the race modifier
+        // calculate the wizard's deflect ability
+        wizardDeflectDamage = damage * 1.4f * Math.max(     // 40% against knight
+                (35f + 2 * wizardHero.getLevel()) / 100,
+                70f / 100);
+
+        damage *= 1.05f;                             // apply the race modifier
 
         wizardHero.takeDamage(Math.round(damage));
         wizardHero.stun();                          // stun the enemy
+
+        this.takeDamage(Math.round(wizardDeflectDamage));   // wizard's deflect ability
     }
 
     @Override
@@ -132,9 +148,9 @@ public class Knight extends Hero {
         float damage = 100f + 40 * this.getLevel(); // apply the level modifier
 
         if (terrain == Terrain.LAND)
-            damage *= 1.15;                         // apply the terrain modifier
+            damage *= 1.15f;                         // apply the terrain modifier
 
-        damage *= 0.8;                              // apply the race modifier
+        damage *= 0.8f;                              // apply the race modifier
 
         rogueHero.takeDamage(Math.round(damage));
         rogueHero.stun();                           // stun the enemy

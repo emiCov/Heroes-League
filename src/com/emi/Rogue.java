@@ -53,11 +53,10 @@ public class Rogue extends Hero {
     @Override
     public void firstAbility(Wizard wizardHero, Terrain terrain) {
         float damage = 200f + 20 * this.getLevel();  // apply the level modifier
+        float wizardDeflectDamage;
 
         if (terrain == Terrain.WOODS)
             damage *= 1.15f;                         // apply the terrain modifier
-
-        damage *= 1.25f;                             // apply the race modifier
 
         // check for critical strike
         if (strikeNo == 3) {
@@ -67,7 +66,16 @@ public class Rogue extends Hero {
             strikeNo = 0;
         }
 
+        // calculate the wizard's deflect ability
+        wizardDeflectDamage = damage * 1.2f * Math.max(     // 20% against rogue
+                (35f + 2 * wizardHero.getLevel()) / 100,
+                70f / 100);
+
+        damage *= 1.25f;                             // apply the race modifier
+
         wizardHero.takeDamage(Math.round(damage));
+
+        this.takeDamage(Math.round(wizardDeflectDamage));    // wizard's deflect ability
     }
 
     @Override
@@ -134,6 +142,7 @@ public class Rogue extends Hero {
     public void secondAbility(Wizard wizardHero, Terrain terrain) {
         byte duration;
         float damage = 40f + 10 * this.getLevel(); // apply the level modifier
+        float wizardDeflectDamage;
 
         if (terrain == Terrain.WOODS) {
             damage *= 1.15f;                        // apply the terrain modifier
@@ -141,12 +150,19 @@ public class Rogue extends Hero {
         } else
             duration = 3;
 
+        // calculate the wizard's deflect ability
+        wizardDeflectDamage = damage * 1.2f * Math.max(     // 20% against rogue
+                (35f + 2 * wizardHero.getLevel()) / 100,
+                70f / 100);
+
         damage *= 1.25f;                            // apply the race modifier
 
         wizardHero.takeDamage(Math.round(damage));
         wizardHero.paralysis(
                 Math.round((40 + 10 * this.getLevel()) * 1.25f),
                 duration);               // paralyse the opponent
+
+        this.takeDamage(Math.round(wizardDeflectDamage));    // wizard's deflect ability
     }
 
     @Override
