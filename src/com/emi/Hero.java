@@ -10,7 +10,7 @@ public abstract class Hero {
     private boolean isStunned;
     private int damageOverTime;
     private byte damageOverTimeRounds;
-    private static int currentRound = 0;
+    private static int currentRound = 1;
 
     public Hero(String name, int hitPoints, int positionX, int positionY) {
         this.name = name;
@@ -24,7 +24,19 @@ public abstract class Hero {
         damageOverTimeRounds = 0;
     }
 
-    // Methods for calculating the firstAbility against different opponents
+    public void moveHero(char direction) {
+        if (this.isStunned || direction == '_')
+            return;
+
+        switch (direction) {
+            case 'U' -> this.positionX--;
+            case 'D' -> this.positionX++;
+            case 'L' -> this.positionY--;
+            case 'R' -> this.positionY++;
+        }
+    }
+
+    // methods for calculating the firstAbility against different opponents
     public abstract void firstAbility(Knight knightHero, Terrain terrain);
 
     public abstract void firstAbility(Pyromancer pyromancerHero, Terrain terrain);
@@ -33,7 +45,7 @@ public abstract class Hero {
 
     public abstract void firstAbility(Rogue rogueHero, Terrain terrain);
 
-    // Methods for calculating the secondAbility against different opponents
+    // methods for calculating the secondAbility against different opponents
     public abstract void secondAbility(Knight knightHero, Terrain terrain);
 
     public abstract void secondAbility(Pyromancer pyromancerHero, Terrain terrain);
@@ -78,7 +90,6 @@ public abstract class Hero {
                 hitPoints = 400 + 30 * level;
             else
                 hitPoints = 600 + 40 * level;
-
         }
     }
 

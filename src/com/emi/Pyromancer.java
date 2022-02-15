@@ -40,7 +40,7 @@ public class Pyromancer extends Hero {
             damage *= 1.25f;                         // apply the terrain modifier
 
         // calculate the wizard's deflect ability
-        wizardDeflectDamage = damage * 1.3f * Math.max(     // 30% against pyromancer
+        wizardDeflectDamage = damage * 1.3f * Math.min(     // 30% against pyromancer
                 (35f + 2 * wizardHero.getLevel()) / 100,
                 70f / 100);
 
@@ -104,7 +104,7 @@ public class Pyromancer extends Hero {
             damage *= 1.25f;                         // apply the terrain modifier
 
         // calculate the wizard's deflect ability
-        wizardDeflectDamage = damage * 1.3f * Math.max(     // 30% against pyromancer
+        wizardDeflectDamage = damage * 1.3f * Math.min(     // 30% against pyromancer
                 (35f + 2 * wizardHero.getLevel()) / 100,
                 70f / 100);
 

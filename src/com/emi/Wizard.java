@@ -104,5 +104,6 @@ public class Wizard extends Hero {
     @Override
     public void defend(Hero hero, Terrain terrain) {
         hero.firstAbility(this, terrain);
+        hero.secondAbility(this, terrain);
     }
 }

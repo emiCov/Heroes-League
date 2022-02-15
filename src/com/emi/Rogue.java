@@ -25,7 +25,8 @@ public class Rogue extends Hero {
                 damage *= 1.5f;
             }
             strikeNo = 0;
-        }
+        } else
+            strikeNo++;
 
         knightHero.takeDamage(Math.round(damage));
     }
@@ -45,7 +46,8 @@ public class Rogue extends Hero {
                 damage *= 1.5f;
             }
             strikeNo = 0;
-        }
+        } else
+            strikeNo++;
 
         pyromancerHero.takeDamage(Math.round(damage));
     }
@@ -64,10 +66,11 @@ public class Rogue extends Hero {
                 damage *= 1.5f;
             }
             strikeNo = 0;
-        }
+        } else
+            strikeNo++;
 
         // calculate the wizard's deflect ability
-        wizardDeflectDamage = damage * 1.2f * Math.max(     // 20% against rogue
+        wizardDeflectDamage = damage * 1.2f * Math.min(     // 20% against rogue
                 (35f + 2 * wizardHero.getLevel()) / 100,
                 70f / 100);
 
@@ -93,7 +96,8 @@ public class Rogue extends Hero {
                 damage *= 1.5f;
             }
             strikeNo = 0;
-        }
+        } else
+            strikeNo++;
 
         rogueHero.takeDamage(Math.round(damage));
     }
@@ -151,7 +155,7 @@ public class Rogue extends Hero {
             duration = 3;
 
         // calculate the wizard's deflect ability
-        wizardDeflectDamage = damage * 1.2f * Math.max(     // 20% against rogue
+        wizardDeflectDamage = damage * 1.2f * Math.min(     // 20% against rogue
                 (35f + 2 * wizardHero.getLevel()) / 100,
                 70f / 100);
 
