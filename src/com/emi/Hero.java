@@ -8,8 +8,9 @@ public abstract class Hero {
     private int positionX;
     private int positionY;
     private boolean isStunned;
+    private boolean takesDamageOverTime;
     private int damageOverTime;
-    private byte damageOverTimeRounds;
+    private int endDOTRound;
     private static int currentRound = 1;
 
     public Hero(String name, int hitPoints, int positionX, int positionY) {
@@ -20,12 +21,16 @@ public abstract class Hero {
         XP = 0;
         level = 0;
         isStunned = false;
+        takesDamageOverTime = false;
         damageOverTime = 0;
-        damageOverTimeRounds = 0;
+        endDOTRound = 0;
     }
 
     public void moveHero(char direction) {
-        if (this.isStunned || direction == '_')
+        if (this.isStunned && this.endDOTRound < currentRound)
+            this.isStunned = false;
+
+        if (this.getHitPoints() == 0 || this.isStunned|| direction == '_')
             return;
 
         switch (direction) {
@@ -72,9 +77,9 @@ public abstract class Hero {
     }
 
     // method for leveling up (also setting the HP to 100%, depending on the hero's type)
-    public void levelUp(Hero hero, int amountXP) {
+    public void levelUp() {
         int newLevel;
-        XP += amountXP;
+//        XP += amountXP;
         if (XP < 250)
             newLevel = 0;
         else
@@ -82,11 +87,11 @@ public abstract class Hero {
 
         if (newLevel > level) {
             level = newLevel;
-            if (hero instanceof Knight)
+            if (this instanceof Knight)
                 hitPoints = 900 + 80 * level;
-            else if (hero instanceof Pyromancer)
+            else if (this instanceof Pyromancer)
                 hitPoints = 500 + 50 * level;
-            else if (hero instanceof Wizard)
+            else if (this instanceof Wizard)
                 hitPoints = 400 + 30 * level;
             else
                 hitPoints = 600 + 40 * level;
@@ -96,19 +101,38 @@ public abstract class Hero {
     public void stun() {
         isStunned = true;
         damageOverTime = 0;
-        damageOverTimeRounds = 1;
+        endDOTRound = 1 + Hero.getCurrentRound();
+        this.takesDamageOverTime = false;
     }
 
-    public void ignite(int damageOverTime, byte damageOverTimeRounds) {
+    public void ignite(int damageOverTime, int endDOTRound) {
         isStunned = false;
         this.damageOverTime = damageOverTime;
-        this.damageOverTimeRounds = damageOverTimeRounds;
+        this.endDOTRound = endDOTRound;
+        this.takesDamageOverTime = true;
     }
 
-    public void paralysis(int damageOverTime, byte damageOverTimeRounds) {
+    public void paralyse(int damageOverTime, int endDOTRound) {
         isStunned = false;
         this.damageOverTime = damageOverTime;
-        this.damageOverTimeRounds = damageOverTimeRounds;
+        this.endDOTRound = endDOTRound;
+        this.takesDamageOverTime = true;
+    }
+
+    public void applyDamageOverTime() {
+        if (!this.takesDamageOverTime || this.getHitPoints() == 0)
+            return;
+
+        if (Hero.getCurrentRound() > this.endDOTRound) {
+            this.takesDamageOverTime = false;
+            return;
+        }
+
+        this.takeDamage(this.damageOverTime);
+    }
+
+    public static void goToTheNextRound() {
+        currentRound++;
     }
 
     // getters
@@ -140,11 +164,15 @@ public abstract class Hero {
         return damageOverTime;
     }
 
-    public int getDamageOverTimeRounds() {
-        return damageOverTimeRounds;
+    public int getEndDOTRound() {
+        return endDOTRound;
     }
 
     public static int getCurrentRound() {
         return currentRound;
+    }
+
+    public int getXP() {
+        return XP;
     }
 }

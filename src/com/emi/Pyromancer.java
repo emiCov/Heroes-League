@@ -77,7 +77,7 @@ public class Pyromancer extends Hero {
         knightHero.takeDamage(Math.round(damage));
         knightHero.ignite(
                 Math.round((50 + 30 * this.getLevel()) * 1.2f),
-                (byte) 2);               // ignite the opponent
+                Hero.getCurrentRound() + 2);               // ignite the opponent
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Pyromancer extends Hero {
         pyromancerHero.takeDamage(Math.round(damage));
         pyromancerHero.ignite(
                 Math.round((50 + 30 * this.getLevel()) * 0.9f),
-                (byte) 2);               // ignite the opponent
+                Hero.getCurrentRound() + 2);                // ignite the opponent
     }
 
     @Override
@@ -113,7 +113,7 @@ public class Pyromancer extends Hero {
         wizardHero.takeDamage(Math.round(damage));
         wizardHero.ignite(
                 Math.round((50 + 30 * this.getLevel()) * 1.05f),
-                (byte) 2);               // ignite the opponent
+                Hero.getCurrentRound() + 2);               // ignite the opponent
 
         this.takeDamage(Math.round(wizardDeflectDamage));    // wizard's deflect ability
     }
@@ -130,7 +130,7 @@ public class Pyromancer extends Hero {
         rogueHero.takeDamage(Math.round(damage));
         rogueHero.ignite(
                 Math.round((50 + 30 * this.getLevel()) * 0.8f),
-                (byte) 2);               // ignite the opponent
+                Hero.getCurrentRound() + 2);               // ignite the opponent
     }
 
     @Override

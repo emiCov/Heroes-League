@@ -118,9 +118,9 @@ public class Rogue extends Hero {
         damage *= 0.8f;                              // apply the race modifier
 
         knightHero.takeDamage(Math.round(damage));
-        knightHero.paralysis(
+        knightHero.paralyse(
                 Math.round((40 + 10 * this.getLevel()) * 0.8f),
-                duration);               // paralyse the opponent
+                duration + Hero.getCurrentRound());               // paralyse the opponent
     }
 
     @Override
@@ -137,9 +137,9 @@ public class Rogue extends Hero {
         damage *= 1.2f;                              // apply the race modifier
 
         pyromancerHero.takeDamage(Math.round(damage));
-        pyromancerHero.paralysis(
+        pyromancerHero.paralyse(
                 Math.round((40 + 10 * this.getLevel()) * 1.2f),
-                duration);               // paralyse the opponent
+                duration + Hero.getCurrentRound());               // paralyse the opponent
     }
 
     @Override
@@ -162,9 +162,9 @@ public class Rogue extends Hero {
         damage *= 1.25f;                            // apply the race modifier
 
         wizardHero.takeDamage(Math.round(damage));
-        wizardHero.paralysis(
+        wizardHero.paralyse(
                 Math.round((40 + 10 * this.getLevel()) * 1.25f),
-                duration);               // paralyse the opponent
+                duration + Hero.getCurrentRound());               // paralyse the opponent
 
         this.takeDamage(Math.round(wizardDeflectDamage));    // wizard's deflect ability
     }
@@ -183,9 +183,9 @@ public class Rogue extends Hero {
         damage *= 0.9f;                             // apply the race modifier
 
         rogueHero.takeDamage(Math.round(damage));
-        rogueHero.paralysis(
+        rogueHero.paralyse(
                 Math.round((40 + 10 * this.getLevel()) * 0.9f),
-                duration);               // paralyse the opponent
+                duration + Hero.getCurrentRound());               // paralyse the opponent
     }
 
     @Override

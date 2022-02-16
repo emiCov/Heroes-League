@@ -17,7 +17,7 @@ public class Wizard extends Hero {
 
         damage = percent * Math.min(
                         knightHero.getHitPoints(),
-                        Math.round((0.3 * (600 + 40 * knightHero.getLevel()))));
+                        Math.round((0.3 * (900 + 80 * knightHero.getLevel()))));
 
         if (terrain == Terrain.DESERT)
             damage *= 1.1f;                             // apply the terrain modifier
@@ -35,7 +35,7 @@ public class Wizard extends Hero {
 
         damage = percent * Math.min(
                 pyromancerHero.getHitPoints(),
-                Math.round((0.3 * (600 + 40 * pyromancerHero.getLevel()))));
+                Math.round((0.3 * (500 + 50 * pyromancerHero.getLevel()))));
 
         if (terrain == Terrain.DESERT)
             damage *= 1.1f;                             // apply the terrain modifier
@@ -50,11 +50,11 @@ public class Wizard extends Hero {
 
         percent = (20f + 5 * this.getLevel()) / 100;    // calculates the percent
         percent *= 1.05f;                               // apply the race modifier
-
+        System.out.println("percent = " + percent);
         damage = percent * Math.min(
                 wizardHero.getHitPoints(),
-                Math.round((0.3 * (600 + 40 * wizardHero.getLevel()))));
-
+                Math.round((0.3 * (400 + 30 * wizardHero.getLevel()))));
+        System.out.println("damage= " + damage);
         if (terrain == Terrain.DESERT)
             damage *= 1.1f;                             // apply the terrain modifier
 
