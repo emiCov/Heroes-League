@@ -5,17 +5,18 @@ import java.util.Map;
 
 public class MyMap {
     private Map<String, Terrain> gameMap;
+    private static MyMap instance = new MyMap();
 
-    public MyMap() {
+    private MyMap() {
         gameMap = new HashMap<>();
+    }
+
+    public static MyMap getInstance() {
+        return instance;
     }
 
     public void addElements(String key, Terrain value) {
         gameMap.put(key, value);
-    }
-
-    public Map<String, Terrain> getGameMap() {
-        return gameMap;
     }
 
     public Terrain getTerrain(int x, int y) {

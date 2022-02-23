@@ -9,6 +9,7 @@ public abstract class Hero {
     private int positionY;
     private boolean isStunned;
     private boolean takesDamageOverTime;
+    private boolean isDead = false;
     private int damageOverTime;
     private int endDOTRound;
     private static int currentRound = 1;
@@ -30,7 +31,7 @@ public abstract class Hero {
         if (this.isStunned && this.endDOTRound < currentRound)
             this.isStunned = false;
 
-        if (this.getHitPoints() == 0 || this.isStunned|| direction == '_')
+        if (this.isDead || this.isStunned || direction == '_')
             return;
 
         switch (direction) {
@@ -67,8 +68,10 @@ public abstract class Hero {
 
         if (this.hitPoints > damage)
             this.hitPoints -= damage;
-        else
+        else {
             this.hitPoints = 0;
+            this.isDead = true;
+        }
     }
 
     // method for increasing the XP according to the formula
@@ -79,7 +82,7 @@ public abstract class Hero {
     // method for leveling up (also setting the HP to 100%, depending on the hero's type)
     public void levelUp() {
         int newLevel;
-//        XP += amountXP;
+
         if (XP < 250)
             newLevel = 0;
         else
@@ -120,7 +123,7 @@ public abstract class Hero {
     }
 
     public void applyDamageOverTime() {
-        if (!this.takesDamageOverTime || this.getHitPoints() == 0)
+        if (!this.takesDamageOverTime || this.isDead)
             return;
 
         if (Hero.getCurrentRound() > this.endDOTRound) {
@@ -174,5 +177,9 @@ public abstract class Hero {
 
     public int getXP() {
         return XP;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 }
